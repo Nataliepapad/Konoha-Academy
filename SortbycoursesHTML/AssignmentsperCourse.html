@@ -1,0 +1,197 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <link href="../../Content/bootstrap.css" rel="stylesheet" />
+    <script src="../../Scripts/jquery-3.0.0.js"></script>
+    <script src="../../Scripts/umd/popper.js"></script>
+    <script src="../../Scripts/bootstrap.js"></script>
+    <link href="../CSS.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width" />
+</head>
+<body>
+    <div class="container">
+        <div class="row" style="font-size:larger">
+            <div class="col">
+                <nav class="navbar navbar-expand-sm" style="color: #d29c9c">
+                    <a class="navbar-brand" href="Main.html"><img src="../Images/Logo.jpg" style="width:55px" alt="Logo" /></a>
+
+                    <!-- Links -->
+                    <ul class="navbar-nav">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                                Menu
+                            </a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="../MenuHTML/Students.html">Students</a>
+                                <a class="dropdown-item" href="../MenuHTML/Trainers.html">Trainers</a>
+                                <a class="dropdown-item" href="../MenuHTML/Courses.html">Courses</a>
+                                <a class="dropdown-item" href="../MenuHTML/Assignments.html">Assignments</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                                Sort by Courses
+                            </a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="TrainersperCourse.html">See all Trainers per Course</a>
+                                <a class="dropdown-item" href="StudentsperCourse.html">See all Students per Course</a>
+                                <a class="dropdown-item" href="AssignmentsperCourse.html">See all Assignments per Course</a>
+                                <a class="dropdown-item" href="AssignmentsperStudentperCourse.html">See all Assignments per Student per Course</a>
+                            </div>
+                        </li>
+                    </ul>
+                    <a class="navbar-brand" href="#">Contact Us</a>
+                </nav>
+            </div>
+            <br>
+        </div>
+    </div>
+    <div class="hero">
+        <!--Table-->
+
+        <h2>Assignments per Course Information</h2>
+        <a class="btn btn-primary" style="background-color: #762121; border-color: #d29c9c; font-size: 22px;" href="AddAssignmentsperCourse.html">Add Assignments per Course</a>
+
+        <table class="table table-dark bg-dark">
+            <thead>
+                <tr>
+                    <th>Course</th>
+                    <th>Title</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="soma">
+            </tbody>
+        </table>
+
+        <div id="myModal" class="card">
+        </div>
+    </div>
+
+    <script>
+       //Model
+
+        function Assignment(course, title) {
+            this.course = course;
+            this.title = title;
+        }
+
+        //  Synthetic Data
+        let ac1 = new Assignment("Philosophy", "Poetry");
+        let ac2 = new Assignment("Medical Studies", "Medical Research");
+        let ac3 = new Assignment("Criminal Justice", "Criminal Investigation");
+        let ac4 = new Assignment("Musical Studies", "Music and Musical Theatre");
+        let ac5 = new Assignment("Anger Management", "Identify Triggers");
+        let ac6 = new Assignment("Gymnastics", "Performing arts");
+        let ac7 = new Assignment("International Relations", "International affairs");
+
+        //Populate Data
+        let assignments = [ac1, ac2, ac3, ac4, ac5, ac6, ac7];
+
+        //Create Rows
+        for (let assign of assignments) {
+            //create row
+            let row = document.createElement("tr");
+            let tdcourse = document.createElement("td");
+            let tdtitle = document.createElement("td");
+            let tdActions = document.createElement("td");
+            let btnEdit = document.createElement("button");
+            let btnDelete = document.createElement("button");
+
+            let textcourse = document.createTextNode(assign.course);
+            let texttitle = document.createTextNode(assign.title);
+            let textBTNEDIT = document.createTextNode("Edit");
+            let textBTNDEL = document.createTextNode("Delete");
+
+            //Add Classes
+            btnEdit.classList.add("btn", "btn-primary");
+            btnDelete.classList.add("btn", "btn-danger");
+
+            //Append Text
+            tdcourse.appendChild(textcourse);
+            tdtitle.appendChild(texttitle);
+            btnEdit.appendChild(textBTNEDIT);
+            btnDelete.appendChild(textBTNDEL);
+
+            //Append Elements
+            tdActions.appendChild(btnEdit);
+            tdActions.appendChild(btnDelete);
+
+            row.appendChild(tdcourse);
+            row.appendChild(tdtitle);
+            row.appendChild(btnEdit);
+            row.appendChild(btnDelete);
+            //User Chooses Edit
+            btnEdit.addEventListener("click", function () {
+                let myModal = document.getElementById("myModal");
+
+                let template = `
+                                   <div class="text-body">
+                                           <form>
+                                               <div class="form-group">
+                                                   <label for="course">Choose the Course*</label>
+                                                   <select id="course" name="course" required size="10" class="custom-select">
+                                                        <option selected value="Philosophy">Philosophy</option>
+                                                        <option value="Strategic">Strategic thinking</option>
+                                                        <option value="Medical">Medical studies</option>
+                                                        <option value="Literature">Literature</option>
+                                                        <option value="Gymnastics">Gymnastics</option>
+                                                        <option value="History">History</option>
+                                                        <option value="Criminal">Criminal Justice</option>
+                                                        <option value="Relations">International Relations</option>
+                                                        <option value="Musical">Musical Studies</option>
+                                                        <option value="Management">Anger Management</option>
+                                                    </select>
+                                                   <label for="title">Choose the Assignment/Assignments*</label>
+                                                   <select id="title" name="title" required multiple size="7" class="custom-select">
+                                                        <option selected value="Poetry">Poetry</option>
+                                                        <option value="Medical">Medical Research</option>
+                                                        <option value="Criminal">Criminal Investigation</option>
+                                                        <option value="Music">Music and Musical Theatre</option>
+                                                        <option value="Triggers">Identify Triggers</option>
+                                                        <option value="Performing">Performing arts</option>
+                                                        <option value="Affairs">International affairs</option>
+                                                    </select>
+                                                    <input id="myEdit" class="btn btn-primary" type="submit" name="edit" value="Edit" />
+                                                    <a class="btn btn-danger" href="AssignmentsperCourse.html">Cancel</a>
+                                              </div>
+                                          </form>
+                                      </div>
+                                               `;
+                myModal.innerHTML = template;
+
+                $("tbody").append(myModal.innerHTML);
+
+            });
+
+            //User Chooses Delete
+            btnDelete.addEventListener("click", function () {
+                let myModal = document.getElementById("myModal");
+
+                let template = `
+                                       <div class="text-body">
+                                               <form>
+                                                    <h3>Delete "${assign.title}" for "${assign.course}"?</h3>
+                                                    <h4>Are you sure you wish to proceed?<br />
+                                                    This action is irrevertible</h4>
+                                                    <a class="btn btn-danger" href="AssignmentsperCourse.html">Yes</a>
+                                                    <a class="btn btn-primary" href="AssignmentsperCourse.html">No</a>
+                                               </form>
+                                       </div>
+                                `;
+                myModal.innerHTML = template;
+            });
+
+            //Append to DOM
+            let soma = document.getElementById("soma");
+            soma.appendChild(row);
+        }
+    </script>
+
+    <footer>
+        <p class="blockquote-footer">
+            © 2021 Papadatou Natalia. All Rights Reserved
+        </p>
+    </footer>
+</body>
+</html>

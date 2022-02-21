@@ -1,0 +1,215 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <link href="../../Content/bootstrap.css" rel="stylesheet" />
+    <script src="../../Scripts/jquery-3.0.0.js"></script>
+    <script src="../../Scripts/umd/popper.js"></script>
+    <script src="../../Scripts/bootstrap.js"></script>
+    <link href="../CSS.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width" />
+</head>
+<body>
+    <div class="container">
+        <div class="row" style="font-size:larger">
+            <div class="col">
+                <nav class="navbar navbar-expand-sm" style="color: #d29c9c">
+                    <a class="navbar-brand" href="Main.html"><img src="../Images/Logo.jpg" style="width:55px" alt="Logo" /></a>
+
+                    <!-- Links -->
+                    <ul class="navbar-nav">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                                Menu
+                            </a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="../MenuHTML/Students.html">Students</a>
+                                <a class="dropdown-item" href="../MenuHTML/Trainers.html">Trainers</a>
+                                <a class="dropdown-item" href="../MenuHTML/Courses.html">Courses</a>
+                                <a class="dropdown-item" href="../MenuHTML/Assignments.html">Assignments</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                                Sort by Courses
+                            </a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="TrainersperCourse.html">See all Trainers per Course</a>
+                                <a class="dropdown-item" href="StudentsperCourse.html">See all Students per Course</a>
+                                <a class="dropdown-item" href="AssignmentsperCourse.html">See all Assignments per Course</a>
+                                <a class="dropdown-item" href="AssignmentsperStudentperCourse.html">See all Assignments per Student per Course</a>
+                            </div>
+                        </li>
+                    </ul>
+                    <a class="navbar-brand" href="#">Contact Us</a>
+                </nav>
+            </div>
+            <br>
+        </div>
+    </div>
+    <div class="hero">
+        <!--Table-->
+
+        <h2>Assignments per Course per Student Information</h2>
+        <a class="btn btn-primary" style="background-color: #762121; border-color: #d29c9c; font-size: 22px;" href="AddAssignmentsperStudentperCourse.html">Add Assignments per Course per Students</a>
+
+        <table class="table table-dark bg-dark">
+            <thead>
+                <tr>
+                    <th>Course</th>
+                    <th>Assignment</th>
+                    <th>Student</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="soma">
+            </tbody>
+        </table>
+
+        <div id="myModal" class="card">
+        </div>
+    </div>
+
+    <script>
+        //Model
+        function Stu(course, assignment, student) {
+            this.course = course;
+            this.assignment = assignment;
+            this.student = student;
+        }
+
+        //  Synthetic Data
+        let asc1 = new Stu("Philosophy", "Poetry", "Hinata Hyuga");
+        let asc2 = new Stu("Medical Studies", "Medical Research", "Neji Hyuga");
+        let asc3 = new Stu("Criminal Justice", "Criminal Investigation", "Hinata Hyuga");
+        let asc4 = new Stu("Musical Studies", "Music and Musical Theatre", "Naruto Uzumaki");
+        let asc5 = new Stu("Anger Management", "Identify Triggers", "Sasuke Uchiha" );
+        let asc6 = new Stu("Gymnastics", "Performing arts", "Ino Yamanaka");
+        let asc7 = new Stu("International Relations", "International affairs", "Gaara Yuzawa");
+
+        //Populate Data
+        let assignments = [asc1, asc2, asc3, asc4, asc5, asc6, asc7];
+
+        //Create Rows
+        for (let stu of assignments) {
+            //create row
+            let row = document.createElement("tr");
+            let tdcourse = document.createElement("td");
+            let tdassignment = document.createElement("td");
+            let tdstudent = document.createElement("td");
+            let tdActions = document.createElement("td");
+            let btnEdit = document.createElement("button");
+            let btnDelete = document.createElement("button");
+
+            let textcourse = document.createTextNode(stu.course);
+            let textassignment = document.createTextNode(stu.assignment);
+            let textstudent = document.createTextNode(stu.student);
+            let textBTNEDIT = document.createTextNode("Edit");
+            let textBTNDEL = document.createTextNode("Delete");
+
+            //Add Classes
+            btnEdit.classList.add("btn", "btn-primary");
+            btnDelete.classList.add("btn", "btn-danger");
+
+            //Append Text
+            tdcourse.appendChild(textcourse);
+            tdassignment.appendChild(textassignment);
+            tdstudent.appendChild(textstudent);
+            btnEdit.appendChild(textBTNEDIT);
+            btnDelete.appendChild(textBTNDEL);
+
+            //Append Elements
+            tdActions.appendChild(btnEdit);
+            tdActions.appendChild(btnDelete);
+
+            row.appendChild(tdcourse);
+            row.appendChild(tdassignment);
+            row.appendChild(tdstudent);
+            row.appendChild(btnEdit);
+            row.appendChild(btnDelete);
+
+            //User Chooses Edit
+            btnEdit.addEventListener("click", function () {
+                let myModal = document.getElementById("myModal");
+
+                let template = `
+                           <div class="text-body">
+                                   <form>
+                                           <label for="course">Choose the Course*</label>
+                                           <select id="course" name="course" required size="10" class="custom-select">
+                                                <option selected value="Philosophy">Philosophy</option>
+                                                <option value="Strategic">Strategic thinking</option>
+                                                <option value="Medical">Medical studies</option>
+                                                <option value="Literature">Literature</option>
+                                                <option value="Gymnastics">Gymnastics</option>
+                                                <option value="History">History</option>
+                                                <option value="Criminal">Criminal Justice</option>
+                                                <option value="Relations">International Relations</option>
+                                                <option value="Musical">Musical Studies</option>
+                                                <option value="Management">Anger Management</option>
+                                            </select>
+                                           <label for="title">Choose an Assignment/Assignments*</label>
+                                           <select id="title" name="title" required multiple size="7" class="custom-select">
+                                                <option selected value="Poetry">Poetry</option>
+                                                <option value="Medical">Medical Research</option>
+                                                <option value="Criminal">Criminal Investigation</option>
+                                                <option value="Music">Music and Musical Theatre</option>
+                                                <option value="Triggers">Identify Triggers</option>
+                                                <option value="Performing">Performing arts</option>
+                                                <option value="Affairs">International affairs</option>
+                                            </select>
+                                           <label for="title">Choose a Student/Students*</label>
+                                           <select id="title" name="student" required multiple size="10" class="custom-select">
+                                                <option selected value="Naruto">Naruto Uzumaki</option>
+                                                <option value="Sasuke">Sasuke Uchiha</option>
+                                                <option value="Shikamaru">Shikamaru Nara</option>
+                                                <option value="Hinata">Hinata Hyuga</option>
+                                                <option value="Sakura">Sakura Haruno</option>
+                                                <option value="Gaara">Gaara Yuzawa</option>
+                                                <option value="Lee">Lee Rock</option>
+                                                <option value="Neji">Neji Hyuga</option>
+                                                <option value="Ino">Ino Yamanaka</option>
+                                                <option value="Kiba">Kiba Inuzuka</option>
+                                            </select>
+                                            <input id="myEdit" class="btn btn-primary" type="submit" name="edit" value="Edit" />
+                                            <a class="btn btn-danger" href="AssignmentsperStudentperCourse.html">Cancel</a>
+                                      </div>
+                                  </form>
+                              </div>
+                                       `;
+                myModal.innerHTML = template;
+
+                $("tbody").append(myModal.innerHTML);
+
+            });
+
+            //User Chooses Delete
+            btnDelete.addEventListener("click", function () {
+                let myModal = document.getElementById("myModal");
+
+                let template = `
+                                    <div class="text-body">
+                                         <form>
+                                               <h3>Delete "${stu.assignment}" for  "${stu.student}" at "${stu.course}"?</h3>
+                                               <h4>Are you sure you wish to proceed?<br />
+                                               This action is irrevertible</h4>
+                                               <a class="btn btn-danger" href="AssignmentsperStudentperCourse.html">Yes</a>
+                                               <a class="btn btn-primary" href="AssignmentsperStudentperCourse.html">No</a>
+                                         </form>
+                                     </div>
+                                                                                   `;
+                myModal.innerHTML = template;
+            });
+
+            //Append to DOM
+            let soma = document.getElementById("soma");
+            soma.appendChild(row);
+        }
+    </script>
+
+    <footer>
+        <p class="blockquote-footer">
+            © 2021 Papadatou Natalia. All Rights Reserved
+        </p>
+    </footer>
+</body>
+</html>

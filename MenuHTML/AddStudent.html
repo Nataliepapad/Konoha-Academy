@@ -1,0 +1,184 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <link href="../../Content/bootstrap.css" rel="stylesheet" />
+    <script src="../../Scripts/jquery-3.0.0.js"></script>
+    <script src="../../Scripts/umd/popper.js"></script>
+    <script src="../../Scripts/bootstrap.js"></script>
+    <link href="../CSS.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width" />
+
+</head>
+<body>
+    <div class="container">
+        <div class="row" style="font-size:larger">
+            <div class="col">
+                <nav class="navbar navbar-expand-sm">
+                    <a class="navbar-brand" href="Main.html"><img src="../Images/Logo.jpg" style="width:55px" alt="Logo" /></a>
+
+                    <!-- Links -->
+                    <ul class="navbar-nav">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                                Menu
+                            </a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="Students.html">Students</a>
+                                <a class="dropdown-item" href="Trainers.html">Trainers</a>
+                                <a class="dropdown-item" href="Courses.html">Courses</a>
+                                <a class="dropdown-item" href="Assignments.html">Assignments</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                                Sort by Courses
+                            </a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="../SortbycoursesHTML/TrainersperCourse.html">See all Trainers per Course</a>
+                                <a class="dropdown-item" href="../SortbycoursesHTML/StudentsperCourse.html">See all Students per Course</a>
+                                <a class="dropdown-item" href="../SortbycoursesHTML/AssignmentsperCourse.html">See all Assignments per Course</a>
+                                <a class="dropdown-item" href="../SortbycoursesHTML/AssignmentsperStudentperCourse.html">See all Assignments per Student per Course</a>
+                            </div>
+                        </li>
+                    </ul>
+                    <a class="navbar-brand" href="#">Contact Us</a>
+                </nav>
+            </div>
+            <br>
+
+        </div>
+    </div>
+
+    <div class="hero">
+        <!--Table-->
+        <h2>Students Information</h2>
+        <button type="button" style="background-color: #762121; border-color: #d29c9c; font-size: 22px;" class="btn btn-primary" data-toggle="modal" data-target="#myModalAdd">
+            Add Student
+        </button>
+        <table class="table table-dark bg-dark">
+            <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Date Of Birth</th>
+                    <th>Tuition Fees</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="soma">
+            </tbody>
+        </table>
+
+
+        <!-- The Modal -->
+        <div class="modal modal-dialog-centered" id="myModalAdd">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Add a Student</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="col">
+                        <div class="row">
+                            <div class="col">
+                                <form>
+                                    <div class="form-group">
+                                        <input class="form-control" type="text" name="firstname" value="" placeholder="Give student's Firstname*" autocomplete="on" pattern="[a-zA-Z]+" title="Names can only contain letters" required />
+                                        <input class="form-control" type="text" name="lastname" value="" placeholder="Give student's Lastname*" autocomplete="on" pattern="[a-zA-Z]+" title="Names can only contain letters" required />
+                                        <input class="form-control" type="date" name="course" value="" placeholder="Select student's Date of Birth*" min="1950-01-01" max="2003-11-11" required />
+                                        <input class="form-control" type="number" name="tuition" value="" placeholder="Choose Tuition Fees*" min="0" max="10000" title="" required />
+                                        <br />
+                                        <input class="form-control btn btn-primary" style="width:117px" type="submit" name="name" value="Submit" />
+                                        <input class="form-control btn btn-light" style="width:117px" type="reset" name="name" value="Reset" />
+                                    </div>
+                                </form>
+                                <a class="btn btn-danger" style="" href="Students.html">Cancel</a>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="myModal" class="card">
+        </div>
+    </div>
+    <script>
+        //Model
+        function Student(sfname, slname, dateOfBirth, stuition) {
+            this.sfname = sfname;
+            this.slname = slname;
+            this.sdateOfBirth = dateOfBirth;
+            this.stuition = stuition;
+        }
+
+        //  Synthetic Data
+        let s1 = new Student("Naruto", "Uzumaki", "10/10/1993", 2500);
+        let s2 = new Student("Sasuke", "Uchiha", "11/24/1992", 2500);
+        let s3 = new Student("Shikamaru", "Nara", "09/29/1991", 2250);
+        let s4 = new Student("Hinata", "Hyuga", "11/04/1993	", 2250);
+        let s5 = new Student("Sakura", "Haruno", "09/06/1995", 2250);
+        let s6 = new Student("Gaara", "Yuzawa", "08/10/1994", 2100);
+        let s7 = new Student("Lee", "Rock", "12/07/1992", 2100);
+        let s8 = new Student("Neji", "Hyuga", "04/20/1990", 2500);
+        let s9 = new Student("Ino", "Yamanaka", "06/22/1995", 2500);
+        let s10 = new Student("Kiba", "Inuzuka", "03/01/1989", 2250);
+
+        //Populate Data
+        let students = [s1, s2, s3, s4, s5, s6, s7, s8, s9, s10];
+
+        //Create Rows
+        for (let stu of students) {
+            //create row
+            let row = document.createElement("tr");
+            let tdsfname = document.createElement("td");
+            let tdslname = document.createElement("td");
+            let tdsdateOfBirth = document.createElement("td");
+            let tdstuition = document.createElement("td");
+            let tdActions = document.createElement("td");
+            let btnEdit = document.createElement("button");
+            let btnDelete = document.createElement("button");
+
+            let textFirstname = document.createTextNode(stu.sfname);
+            let textLastname = document.createTextNode(stu.slname);
+            let textDateOfBirth = document.createTextNode(stu.sdateOfBirth);
+            let textTuitionFees = document.createTextNode(stu.stuition);
+            let textBTNEDIT = document.createTextNode("Edit");
+            let textBTNDEL = document.createTextNode("Delete");
+
+            //Add Classes
+            btnEdit.classList.add("btn", "btn-primary");
+            btnDelete.classList.add("btn", "btn-danger");
+
+            //Append Text
+            tdsfname.appendChild(textFirstname);
+            tdslname.appendChild(textLastname);
+            tdsdateOfBirth.appendChild(textDateOfBirth);
+            tdstuition.appendChild(textTuitionFees);
+            btnEdit.appendChild(textBTNEDIT);
+            btnDelete.appendChild(textBTNDEL);
+
+            //Append Elements
+            tdActions.appendChild(btnEdit);
+            tdActions.appendChild(btnDelete);
+
+            row.appendChild(tdsfname);
+            row.appendChild(tdslname);
+            row.appendChild(tdsdateOfBirth);
+            row.appendChild(tdstuition);
+            row.appendChild(btnEdit);
+            row.appendChild(btnDelete);
+
+            //Append to DOM
+            let soma = document.getElementById("soma");
+            soma.appendChild(row);
+        }
+    </script>
+
+    <footer>
+        <p class="blockquote-footer">
+            © 2021 Papadatou Natalia. All Rights Reserved
+        </p>
+    </footer>
+</body>
+</html>

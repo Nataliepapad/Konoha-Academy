@@ -1,0 +1,186 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <link href="../../Content/bootstrap.css" rel="stylesheet" />
+    <script src="../../Scripts/jquery-3.0.0.js"></script>
+    <script src="../../Scripts/umd/popper.js"></script>
+    <script src="../../Scripts/bootstrap.js"></script>
+    <link href="../CSS.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width" />
+</head>
+<body>
+    <div class="container">
+        <div class="row" style="font-size:larger">
+            <div class="col">
+                <nav class="navbar navbar-expand-sm" style="color: #d29c9c">
+                    <a class="navbar-brand" href="Main.html"><img src="../Images/Logo.jpg" style="width:55px" alt="Logo" /></a>
+
+                    <!-- Links -->
+                    <ul class="navbar-nav">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                                Menu
+                            </a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="Students.html">Students</a>
+                                <a class="dropdown-item" href="Trainers.html">Trainers</a>
+                                <a class="dropdown-item" href="Courses.html">Courses</a>
+                                <a class="dropdown-item" href="Assignments.html">Assignments</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                                Sort by Courses
+                            </a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="../SortbycoursesHTML/TrainersperCourse.html">See all Trainers per Course</a>
+                                <a class="dropdown-item" href="../SortbycoursesHTML/StudentsperCourse.html">See all Students per Course</a>
+                                <a class="dropdown-item" href="../SortbycoursesHTML/AssignmentsperCourse.html">See all Assignments per Course</a>
+                                <a class="dropdown-item" href="../SortbycoursesHTML/AssignmentsperStudentperCourse.html">See all Assignments per Student per Course</a>
+                            </div>
+                        </li>
+                    </ul>
+                    <a class="navbar-brand" href="#">Contact Us</a>
+                </nav>
+            </div>
+            <br>
+        </div>
+    </div>
+    <div class="hero">
+        <!--Table-->
+
+        <h2>Assignments Information</h2>
+        <a class="btn btn-primary" style="background-color: #762121; border-color: #d29c9c; font-size: 22px;" href="AddAssignments.html">Add Assignment</a>
+
+        <table class="table table-dark bg-dark">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Submition Date</th>
+                    <th>Oral Mark</th>
+                    <th>Total Mark</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="soma">
+            </tbody>
+        </table>
+
+        <div id="myModal" class="card">
+        </div>
+    </div>
+
+    <!-- The Modal -->
+    <div class="modal modal-dialog-centered" id="myModalAdd">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Add an Assignment</h4>
+            </div>
+            <div class="modal-body">
+                <div class="col">
+                    <div class="row">
+                        <div class="col">
+                            <form>
+                                <div class="form-group">
+                                    <input class="form-control" type="text" name="title" value="" placeholder="Add Assignment's name*" autocomplete="on" autofocus required />
+                                    <input class="form-control" type="text" name="description" value="" placeholder="Assignment's description*" required />
+                                    <input class="form-control" type="date" name="sudate" value="" placeholder="Submition Date*" min="2018-09-01" required />
+                                    <input class="form-control" type="number" name="oralmark" value="" placeholder="Select Oral Mark*" min="0" max="100" required />
+                                    <input class="form-control" type="number" name="total" value="" placeholder="Select Total Mark*" min="0" max="100" required />
+                                    <input class="form-control btn btn-primary" style="width:117px" type="submit" name="name" value="Submit" />
+                                    <input class="form-control btn btn-light" style="width:117px" type="reset" name="name" value="Reset" />
+                                </div>
+                            </form>
+                            <a class="btn btn-danger" style="margin-left:80px;" href="Assignments.html">Cancel</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        //Model
+        function Assignment(title, description, subdate, oralmark, total) {
+            this.title = title;
+            this.description = description;
+            this.subdate = subdate;
+            this.oralmark = oralmark;
+            this.total = total;
+        }
+
+        //  Synthetic Data
+        let a1 = new Assignment("Philosophy", "CB-8", "2021-10-05", 92, 86);
+        let a2 = new Assignment("Strategic thinking", "CB-9", "2022-01-29", 87, 67);
+        let a3 = new Assignment("Medical Studies", "CB-10", "2022-03-08", 76, 93);
+        let a4 = new Assignment("Literature", "CB-8", "2021-10-05", 74, 55);
+        let a5 = new Assignment("Gymnastics", "CB-10", "2022-02-14", 68, 77);
+        let a6 = new Assignment("History", "CB-9", "2022-03-08", 95, 93);
+        let a7 = new Assignment("Criminal Justice", "CB-8", "2022-01-29", 92, 89);
+        let a8 = new Assignment("International Relations", "2021-10-05", 100, 100, 90);
+        let a9 = new Assignment("Synthesis", "CB-8", "2022-02-14", 82, 79);
+        let a10 = new Assignment("Anger Management", "CB-10", "2022-01-29", 73, 66);
+
+        //Populate Data
+        let assignments = [a1, a2, a3, a4, a5, a6, a7, a8, a9, a10];
+
+        //Create Rows
+        for (let assign of assignments) {
+            //create row
+            let row = document.createElement("tr");
+            let tdtitle = document.createElement("td");
+            let tddescription = document.createElement("td");
+            let tdsubdate = document.createElement("td");
+            let tdoralmark = document.createElement("td");
+            let tdtotal = document.createElement("td");
+            let tdActions = document.createElement("td");
+            let btnEdit = document.createElement("button");
+            let btnDelete = document.createElement("button");
+
+            let texttitle = document.createTextNode(assign.title);
+            let textdescription = document.createTextNode(assign.description);
+            let textsubdate = document.createTextNode(assign.subdate);
+            let textoralmark = document.createTextNode(assign.oralmark);
+            let texttotal = document.createTextNode(assign.total);
+            let textBTNEDIT = document.createTextNode("Edit");
+            let textBTNDEL = document.createTextNode("Delete");
+
+            //Add Classes
+            btnEdit.classList.add("btn", "btn-primary");
+            btnDelete.classList.add("btn", "btn-danger");
+
+            //Append Text
+            tdtitle.appendChild(texttitle);
+            tddescription.appendChild(textdescription);
+            tdsubdate.appendChild(textsubdate);
+            tdoralmark.appendChild(textoralmark);
+            tdtotal.appendChild(texttotal);
+            btnEdit.appendChild(textBTNEDIT);
+            btnDelete.appendChild(textBTNDEL);
+
+            //Append Elements
+            tdActions.appendChild(btnEdit);
+            tdActions.appendChild(btnDelete);
+
+            row.appendChild(tdtitle);
+            row.appendChild(tddescription);
+            row.appendChild(tdsubdate);
+            row.appendChild(tdoralmark);
+            row.appendChild(tdtotal);
+            row.appendChild(btnEdit);
+            row.appendChild(btnDelete);
+
+            //Append to DOM
+            let soma = document.getElementById("soma");
+            soma.appendChild(row);
+        }
+    </script>
+
+    <footer>
+        <p class="blockquote-footer">
+            © 2021 Papadatou Natalia. All Rights Reserved
+        </p>
+    </footer>
+</body>
+</html>

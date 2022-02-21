@@ -1,0 +1,194 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <link href="../../Content/bootstrap.css" rel="stylesheet" />
+    <script src="../../Scripts/jquery-3.0.0.js"></script>
+    <script src="../../Scripts/umd/popper.js"></script>
+    <script src="../../Scripts/bootstrap.js"></script>
+    <link href="../CSS.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width" />
+</head>
+<body>
+    <div class="container">
+        <div class="row" style="font-size:larger">
+            <div class="col">
+                <nav class="navbar navbar-expand-sm" style="color: #d29c9c">
+                    <a class="navbar-brand" href="Main.html"><img src="../Images/Logo.jpg" style="width:55px" alt="Logo" /></a>
+
+                    <!-- Links -->
+                    <ul class="navbar-nav">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                                Menu
+                            </a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="Students.html">Students</a>
+                                <a class="dropdown-item" href="Trainers.html">Trainers</a>
+                                <a class="dropdown-item" href="Courses.html">Courses</a>
+                                <a class="dropdown-item" href="Assignments.html">Assignments</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                                Sort by Courses
+                            </a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="../SortbycoursesHTML/TrainersperCourse.html">See all Trainers per Course</a>
+                                <a class="dropdown-item" href="../SortbycoursesHTML/StudentsperCourse.html">See all Students per Course</a>
+                                <a class="dropdown-item" href="../SortbycoursesHTML/AssignmentsperCourse.html">See all Assignments per Course</a>
+                                <a class="dropdown-item" href="../SortbycoursesHTML/AssignmentsperStudentperCourse.html">See all Assignments per Student per Course</a>
+                            </div>
+                        </li>
+                    </ul>
+                    <a class="navbar-brand" href="#">Contact Us</a>
+                </nav>
+            </div>
+            <br>
+        </div>
+    </div>
+
+    <div class="hero">
+        <!--Table-->
+
+        <h2>Trainers Information</h2>
+        <a class="btn btn-primary" style="background-color: #762121; border-color: #d29c9c; font-size: 22px;" href="AddTrainer.html">Add Trainer</a>
+
+        <table class="table table-dark bg-dark">
+            <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Course</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="soma">
+            </tbody>
+        </table>
+
+        <div id="myModal" class="card">
+        </div>
+    </div>
+
+    <script>
+        //Model
+        function Trainer(fname, lname, course) {
+            this.fname = fname;
+            this.lname = lname;
+            this.course = course;
+        }
+
+        //  Synthetic Data
+        let t1 = new Trainer("Itachi", "Uchiha", "Philosophy");
+        let t2 = new Trainer("Shikaku", "Nara", "Strategic thinking");
+        let t3 = new Trainer("Tsunade", "Senju", "Medical Studies");
+        let t4 = new Trainer("Jiraiya", "Toadsage", "Literature");
+        let t5 = new Trainer("Guy", "Might", "Gymnastics");
+        let t6 = new Trainer("Tobirama", "Senju", "History");
+        let t7 = new Trainer("Kakashi", "Hatake", "Criminal Justice");
+        let t8 = new Trainer("Minato", "Namikaze", "International Relations");
+        let t9 = new Trainer("Killer", "B", "Music Synthesis");
+        let t10 = new Trainer("Kushina", "Uzumaki", "Anger Management");
+
+        //Populate Data
+        let trainers = [t1, t2, t3, t4, t5, t6, t7, t8, t9, t10];
+
+        //Create Rows
+        for (let train of trainers) {
+            //create row
+            let row = document.createElement("tr");
+            let tdfname = document.createElement("td");
+            let tdlname = document.createElement("td");
+            let tdcourse = document.createElement("td");
+            let tdActions = document.createElement("td");
+            let btnEdit = document.createElement("button");
+            let btnDelete = document.createElement("button");
+
+            let textFirstname = document.createTextNode(train.fname);
+            let textLastname = document.createTextNode(train.lname);
+            let textCourse = document.createTextNode(train.course);
+            let textBTNEDIT = document.createTextNode("Edit");
+            let textBTNDEL = document.createTextNode("Delete");
+
+            //Add Classes
+            btnEdit.classList.add("btn", "btn-primary");
+            btnDelete.classList.add("btn", "btn-danger");
+
+            //Append Text
+            tdfname.appendChild(textFirstname);
+            tdlname.appendChild(textLastname);
+            tdcourse.appendChild(textCourse);
+            btnEdit.appendChild(textBTNEDIT);
+            btnDelete.appendChild(textBTNDEL);
+
+            //Append Elements
+            tdActions.appendChild(btnEdit);
+            tdActions.appendChild(btnDelete);
+
+            row.appendChild(tdfname);
+            row.appendChild(tdlname);
+            row.appendChild(tdcourse);
+            row.appendChild(btnEdit);
+            row.appendChild(btnDelete);
+
+            //User Chooses Edit
+            btnEdit.addEventListener("click", function () {
+                let myModal = document.getElementById("myModal");
+
+                let template = `
+                                                   <div class="text-body">
+                                    <form>
+                                        <div class="form-group">
+                                            <input class="form-control" type="text" name="firstname" value="${train.fname}" placeholder="Edit trainer's Firstname*" autocomplete="on" pattern="[a-zA-Z]+" title="Names can only contain letters" required />
+                                            <input class="form-control" type="text" name="lastname" value="${train.lname}" placeholder="Edit trainer's Lastname*" autocomplete="on" pattern="[a-zA-Z]+" title="Names can only contain letters" required />
+                                            <input class="form-control" list="listCourse" type="text" name="course" value="${train.course}" placeholder="Edit trainer's course*" pattern="[a-zA-Z]+" title="Names can only contain letters" required autocomplete="on"/>
+                                            <datalist id="listCourse">
+                                                <option value="Philosophy" />
+                                                <option value="Strategic thinking" />
+                                                <option value="Medical studies" />
+                                                <option value="Literature" />
+                                                <option value="Gymnastics" />
+                                                <option value="History" />
+                                                <option value="Criminal Justice" />
+                                                <option value="International Relations" />
+                                            </datalist>
+                                            <input id="myEdit" class="btn btn-primary" type="submit" name="edit" value="Edit" />
+                                            <a class="btn btn-danger" href="Trainers.html">Cancel</a>
+                                        </div>
+                                    </form>
+                                </div>
+                                                           `;
+                myModal.innerHTML = template;
+            });
+
+            //User Chooses Delete
+            btnDelete.addEventListener("click", function () {
+                let myModal = document.getElementById("myModal");
+
+                let template = `
+                                          <div class="text-body">
+                                                    <form>
+                                                           <h3>Delete "${train.fname} ${train.lname}?</h3>
+                                                           <h4>Are you sure you wish to proceed?<br />
+                                                                   This action is irrevertible</h4>
+                                                                   <a class="btn btn-danger" href="Trainers.html">Yes</a>
+                                                                   <a class="btn btn-primary" href="Trainers.html">No</a>
+                                                        </form>
+                                           </div>
+                                                                           `;
+                myModal.innerHTML = template;
+            });
+
+            //Append to DOM
+            let soma = document.getElementById("soma");
+            soma.appendChild(row);
+        }
+    </script>
+
+    <footer>
+        <p class="blockquote-footer">
+            © 2021 Papadatou Natalia. All Rights Reserved
+        </p>
+    </footer>
+</body>
+</html>

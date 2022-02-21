@@ -1,0 +1,200 @@
+﻿* {
+    margin: 0 auto;
+    padding: 0;
+}
+
+html, body {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 17px;
+    line-height: 1.5;
+    background-image: url(Images/Background.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100%;
+    color: #03010b !important;
+}
+
+.text-body {
+    color: #03010b !important;
+    font-size: 19px;
+    text-align: center;
+    padding: 20px;
+}
+
+h2 {
+    text-align: center;
+    color: #c4bbe7;
+}
+
+.hero {
+    width: 1400px;
+    background-image: linear-gradient(#1b093e, #c4bbe7);
+    padding: 20px;
+    border-radius: 0px 0px 30px 30px;
+    color: #08041c;
+    opacity: 90%;
+    font-size: 18px;
+    text-align: center;
+    margin: 130px auto;
+}
+
+#showcase {
+    width: 800px;
+    background-image: linear-gradient(#08041c, #c4bbe7);
+    padding: 20px;
+    border-radius: 0px 0px 30px 30px;
+    height: 600px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    opacity: 95%;
+    z-index: 1;
+}
+
+    #showcase h1 {
+        font-size: 50px;
+        line-height: 0.8;
+        opacity: 100%;
+    }
+
+    #showcase p {
+        font-size: 25px;
+        font-size-adjust: inherit;
+    }
+
+    #showcase .button {
+        font-size: 23px;
+        text-decoration: none;
+        color: #08041c;
+        border: #c4bbe7 solid;
+        padding: 10px 20px;
+        border-radius: 10px;
+        margin-top: 20px;
+        background: #c4bbe7;
+    }
+
+        #showcase .button:hover {
+            background: #08041c;
+            color: #c4bbe7;
+            font-size: 28px;
+        }
+
+.container {
+    display: flex;
+    justify-content: center;
+    width: 1900px;
+    align-items: center;
+    text-align: center;
+    border-radius: 30px 30px 0px 0px;
+    background-image: linear-gradient(#08041c, #c4bbe7);
+    opacity: 90%;
+}
+
+a {
+    color: #03010b;
+    text-decoration: none;
+    background-color: transparent;
+    z-index: 9999;
+}
+    a:hover {
+        color: #08041c;
+        text-decoration: none;
+        background-color: transparent;
+        z-index: 9999;
+    }
+
+.dropdown-menu {
+    background-color: #c4bbe7;
+    top: 50px;
+    z-index: 9999;
+}
+
+.navbar .nav-item .dropdown-menu {
+    display: none;
+    z-index: 9999;
+}
+
+.navbar .nav-item:hover .nav-link {
+    z-index: 9999;
+}
+
+.navbar .nav-item:hover .dropdown-menu {
+    display: block;
+    z-index: 9999;
+}
+
+.navbar .nav-item .dropdown-menu {
+    margin-top: 0;
+    z-index: 9999;
+}
+
+.table {
+    width: 1000px;
+}
+
+tr {
+    background-color: #08041c;
+    font-size: 20px;
+}
+
+    tr:hover {
+        color: #c4bbe7;
+    }
+
+    tr:nth-child(even) {
+        background-color: #150e38;
+    }
+
+.card {
+    background-image: linear-gradient(#5c221e, #f5b0b0);
+    border: 0px;
+    width: 440px;
+}
+
+.modal-header > h3 {
+    color: #03010b;
+    font-size: 23px;
+    font-weight: bolder;
+    text-align: center;
+    font-weight: 600;
+}
+
+.modal-body > h4 {
+    color: #03010b;
+    font-size: 18px !important;
+    text-align: center;
+    font-weight: 500;
+}
+
+.modal-content {
+    background-image: repeating-linear-gradient(#5c221e, #f5b0b0);
+    width: 400px;
+    height: 400px;
+    padding: 10px;
+}
+
+form-group {
+    background-image: repeating-linear-gradient(#5c221e, #f5b0b0);
+    width: 200px;
+    height: 120px;
+    padding: 10px;
+    font-size: 20px;
+    place-content: center;
+}
+
+input:invalid {
+    border: 2px dashed red;
+}
+
+input:valid {
+    border: 2px solid black;
+}
+
+footer {
+    bottom: 0;
+    place-content: center;
+    position: fixed;
+    font-size: 22px;
+}
